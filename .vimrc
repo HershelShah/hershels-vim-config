@@ -67,10 +67,12 @@ Plug 'simnalamburt/vim-mundo'
 
 " VIM SuperTab
 Plug 'https://github.com/ervandew/supertab.git'
-"
+
 " VIM ALE Code Analysis
 Plug 'dense-analysis/ale'
 
+" VIM Jedi Language Server
+Plug 'davidhalter/jedi-vim'
 call plug#end()
 
 
