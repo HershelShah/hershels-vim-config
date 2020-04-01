@@ -1,35 +1,88 @@
-call plug#begin('~/.vim/plugged')
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'dikiaap/minimalist'
-Plug 'sheerun/vim-polyglot'
-Plug 'https://github.com/tpope/vim-fugitive.git'
-Plug 'https://github.com/airblade/vim-gitgutter.git'
-Plug 'https://github.com/mbbill/undotree.git'
-Plug 'dense-analysis/ale'
-Plug 'https://github.com/ervandew/supertab.git'
-Plug 'luochen1990/rainbow'
-call plug#end()
+"" General
+set nocompatible
+set number                      " Show line numbers
+set linebreak                   " Break lines at word (requires Wrap lines)
+set showbreak=+++               " Wrap-broken line prefix
+set textwidth=100               " Line wrap (number of cols)
+set showmatch                   " Highlight matching brace
+set errorbells                  " Beep or flash screen on errors
+ 
+set hlsearch                    " Highlight all search results
+set smartcase                   " Enable smart-case search
+set ignorecase                  " Always case-insensitive
+set incsearch                   " Searches for strings incrementally
+ 
+set autoindent                  " Auto-indent new lines
+set expandtab                   " Use spaces instead of tabs
+set shiftwidth=4                " Number of auto-indent spaces
+set smartindent                 " Enable smart-indent
+set smarttab                    " Enable smart-tabs
+set softtabstop=4               " Number of spaces per Tab
 
+
+"" Advanced
+set ruler                       " Show row and column ruler information
+set showtabline=1               " Always show Tabline
+set undolevels=1000             " Number of undo levels
+set backspace=indent,eol,start	" Backspace behaviour
+let mapleader ="\<Space>"       " Leader = Space
+inoremap <leader>jk <Esc>
+nnoremap <leader><leader> :
+nnoremap p p=`]<C-o>
+nnoremap P P=`]<C-o>
 filetype plugin on
 
-" Refine keys in VIM to make life easier
-inoremap jk <Esc>
-nnoremap <Space> :
+" VIM ALE Preload
+let g:ale_completion_enabled = 1
 
-set number
-set autoindent
-set smartindent
-set tabstop=4
-set shiftwidth=4
-set showmatch
-set ruler
-set smarttab
+call plug#begin('~/.vim/plugged')
+" File Manager with GIT plugins
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" VIM Airline Features
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" VIM Minimalist Theme
+Plug 'dikiaap/minimalist'
+
+" VIM Git Gutter
+Plug 'https://github.com/airblade/vim-gitgutter.git'
+
+" VIM Fugitive
+Plug 'https://github.com/tpope/vim-fugitive.git'
+
+" VIM Polyglot for Syntax Highlighting
+Plug 'sheerun/vim-polyglot'
+
+" VIM Surround
+Plug 'https://github.com/tpope/vim-surround.git'
+
+" VIM Rainbow Parentheses
+Plug 'luochen1990/rainbow'
+
+" VIM UndoTree
+Plug 'simnalamburt/vim-mundo'
+
+" VIM SuperTab
+Plug 'https://github.com/ervandew/supertab.git'
+"
+" VIM ALE Code Analysis
+Plug 'dense-analysis/ale'
+
+call plug#end()
+
+
+"  Minimalist Theme
+syntax on
+set t_Co=256
+colorscheme minimalist
+
 
 " NERDTree Configurations
-map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeShowIgnoredStatus = 1
+map <leader>f :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 let g:NERDTreeIndicatorMapCustom = {
@@ -45,57 +98,39 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
-" VIM Airline Configurations with Minimalist Background
+
+" VIM Airline Configurations
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-set t_Co=256
-syntax on
-colorscheme minimalist
 let g:airline_theme = 'minimalist'
+
 
 " VIM Git Gutter Settings
 set updatetime=100
+let g:gitgutter_max_signs = 3000 
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
 
-" UNDO Tree
-nnoremap <C-h> :UndotreeToggle<cr>
+" VIM UndoTree
+nnoremap <leader>h :MundoToggle<CR>
+set undofile                    " Enable persistent undo so that undo history persists across vim sessions
+set undodir=~/.vim/undo
 
-" ALE VIM
-" ALE Lint options
-let g:ale_lint_on_text_changed = 1
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_filetype_changed = 1
-let g:ale_lint_delay = 100
-" ALE Completion Implementation
-set omnifunc=ale#completion#OmniFunc
-let g:ale_completion_enabled = 1
+" VIM Rainbow Parentheses
+let g:rainbow_active = 1
 
-" ALE Move
+" VIM ALE Code Analysis
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
-
-" ALE Airline Status
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '.'
+set omnifunc=ale#completion#OmniFunc
+let g:ale_completion_tsserver_autoimport = 1
+let g:ale_sign_column_always = 1
 let g:airline#extensions#ale#enabled = 1
 
-" ALE Vim Linters
-
-let b:ale_linters = {
-	\ 'sh': ['language_server'],
-	\ 'c': ['clangd'],
-	\ 'cpp': ['clangd'],
-	\ 'cuda': ['nvcc'],
-	\ 'python': ['flake8', 'pylint'],
-	\ }
-
-" ALE Vim Fixers
-
-let b:ale_fixers = {
-	\ 'cuda': ['clang-format'],
-	\ 'python': ['autopep8', 'yapf'],
-	\ }
-
-" Rainbow Parentheses Enable
-let g:rainbow_active = 1
+" VIM Linters
+let g:ale_linters = {
+\   'python': ['flake8'],
+\}
