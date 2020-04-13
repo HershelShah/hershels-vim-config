@@ -6,7 +6,7 @@ set showbreak=+++               " Wrap-broken line prefix
 set textwidth=100               " Line wrap (number of cols)
 set showmatch                   " Highlight matching brace
 set errorbells                  " Beep or flash screen on errors
- 
+
 set hlsearch                    " Highlight all search results
 set smartcase                   " Enable smart-case search
 set ignorecase                  " Always case-insensitive
@@ -40,6 +40,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
+" NERD Commenter
+Plug 'preservim/nerdcommenter'
+
 " VIM Airline Features
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -65,14 +68,14 @@ Plug 'luochen1990/rainbow'
 " VIM UndoTree
 Plug 'simnalamburt/vim-mundo'
 
-" VIM SuperTab
-Plug 'https://github.com/ervandew/supertab.git'
-
 " VIM ALE Code Analysis
 Plug 'dense-analysis/ale'
 
 " VIM Jedi Language Server
 Plug 'davidhalter/jedi-vim'
+
+" Python REPL Loop
+Plug 'sillybun/vim-repl'
 call plug#end()
 
 
@@ -80,6 +83,11 @@ call plug#end()
 syntax on
 set t_Co=256
 colorscheme minimalist
+
+" Tab Configurations
+nnoremap <C-t> :tabedit<CR>
+nnoremap <C-j> :tabprevious<CR>                                                                            
+nnoremap <C-k> :tabnext<CR>
 
 
 " NERDTree Configurations
@@ -107,7 +115,7 @@ let g:airline_theme = 'minimalist'
 
 
 " VIM Git Gutter Settings
-set updatetime=100
+set updatetime=300
 let g:gitgutter_max_signs = 3000 
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
@@ -121,8 +129,8 @@ set undodir=~/.vim/undo
 let g:rainbow_active = 1
 
 " VIM ALE Code Analysis
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+nmap <silent> <leader>j <Plug>(ale_next_wrap)
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 1
 let g:ale_sign_error = '●'
@@ -136,3 +144,6 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_linters = {
 \   'python': ['flake8'],
 \}
+
+" VIM REPL Python Toggle
+nnoremap <leader>r :REPLToggle<CR>
