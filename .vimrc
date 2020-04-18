@@ -1,4 +1,4 @@
-"" General
+" General
 set nocompatible
 set number                      " Show line numbers
 set linebreak                   " Break lines at word (requires Wrap lines)
@@ -82,6 +82,9 @@ Plug 'nkantar/SPI.vim'
 
 " VIM FZF
 Plug 'junegunn/fzf.vim'
+
+" VIM CTRL+P
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 
@@ -131,7 +134,7 @@ nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 
 " VIM UndoTree
-nnoremap <leader>h :MundoToggle<CR>
+nnoremap <leader>u :MundoToggle<CR>
 set undofile                    " Enable persistent undo so that undo history persists across vim sessions
 set undodir=~/.vim/undo
 
@@ -174,3 +177,8 @@ inoremap <expr> <c-x><c-l> <plug>(fzf#complete#line({'left': '15%'}))
 " - When set, CTRL-N and CTRL-P will be bound to 'next-history' and
 "   'previous-history' instead of 'down' and 'up'.
 let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+" CIM CTRL + P
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
