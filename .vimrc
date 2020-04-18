@@ -26,7 +26,7 @@ set showtabline=1               " Always show Tabline
 set undolevels=1000             " Number of undo levels
 set backspace=indent,eol,start	" Backspace behaviour
 let mapleader ="\<Space>"       " Leader = Space
-inoremap <leader>jk <Esc>
+inoremap jk <Esc>
 nnoremap <leader><leader> :
 nnoremap p p=`]<C-o>
 nnoremap P P=`]<C-o>
@@ -76,6 +76,12 @@ Plug 'davidhalter/jedi-vim'
 
 " Python REPL Loop
 Plug 'sillybun/vim-repl'
+
+" Sort Python Import Packages 
+Plug 'nkantar/SPI.vim'
+
+" VIM FZF
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 
@@ -83,11 +89,13 @@ call plug#end()
 syntax on
 set t_Co=256
 colorscheme minimalist
+set lazyredraw 
 
 " Tab Configurations
 nnoremap <C-t> :tabedit<CR>
-nnoremap <C-j> :tabprevious<CR>                                                                            
-nnoremap <C-k> :tabnext<CR>
+nnoremap <C-h> :tabprevious<CR>                                                                            
+nnoremap <C-l> :tabnext<CR>
+nnoremap <C-t>t  :tabclose<CR>
 
 
 " NERDTree Configurations
@@ -110,6 +118,8 @@ let g:NERDTreeIndicatorMapCustom = {
 
 
 " VIM Airline Configurations
+let g:airline#extensions#bufferline#enabled = 0
+let g:airline#extensions#tabline#show_buffers = 0 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = 'minimalist'
 
@@ -147,3 +157,20 @@ let g:ale_linters = {
 
 " VIM REPL Python Toggle
 nnoremap <leader>r :REPLToggle<CR>
+
+" VIM FZF 
+" Always enable preview window on the right with 60% width
+let g:fzf_preview_window = 'right:60%'
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+inoremap <expr> <c-x><c-f> <plug>(fzf#complete#path({'left': '15%'})
+inoremap <expr> <c-x><c-j> <plug>(fzf#complete#file#ag({'left': '15%'}))
+inoremap <expr> <c-x><c-l> <plug>(fzf#complete#line({'left': '15%'}))
+" - History files will be stored in the specified directory
+" - When set, CTRL-N and CTRL-P will be bound to 'next-history' and
+"   'previous-history' instead of 'down' and 'up'.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
