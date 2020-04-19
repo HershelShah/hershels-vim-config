@@ -25,6 +25,7 @@ set ruler                       " Show row and column ruler information
 set showtabline=1               " Always show Tabline
 set undolevels=1000             " Number of undo levels
 set backspace=indent,eol,start	" Backspace behaviour
+set spell
 let mapleader ="\<Space>"       " Leader = Space
 inoremap jk <Esc>
 nnoremap <leader><leader> :
